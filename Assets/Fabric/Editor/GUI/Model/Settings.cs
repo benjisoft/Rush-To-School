@@ -13,12 +13,20 @@ namespace Fabric.Internal.Editor.Model
 		private static readonly string SettingsPath = "Editor Default Resources";
 		private static readonly string SettingsAssetExtension = "asset";
 
+		// This gets around comparing 'instance' with 'null' on the main thread specifically for Unity 4.
+		// The underlying comparison implementation has more constraints related to threads than later
+		// versions of Unity.
+		private static bool IsInstantiated()
+		{
+			return !object.ReferenceEquals (instance, null); 
+		}
+
 		#region Instance
 		private static Settings instance;
 		public static Settings Instance
 		{
 			get {
-				if (instance == null) {
+				if (!IsInstantiated ()) {
 					string assetNameWithExtension = string.Join (".", new string[] {
 						SettingsAssetName,
 						SettingsAssetExtension

@@ -754,6 +754,9 @@
 
 		internal static HashSet<VersionedDependency> DeserializeDependenciesRecord(Settings.InstalledKit.MetaTuple record)
 		{
+			if (record == null || record.Value == null) {
+				return new HashSet<VersionedDependency> ();
+			}
 			return new HashSet<VersionedDependency> ((Internal.ThirdParty.MiniJSON.Json.Deserialize (record.Value) as List<object>).ConvertAll (
 				obj => {
 					Dictionary<string, object> typed = obj as Dictionary<string, object>;

@@ -65,6 +65,12 @@
 				Utils.Warn ("Failed to initialize validator");
 			}
 
+			// Loads the settings from disk if not yet loaded.
+			if (Settings.Instance == null) {
+				Utils.Warn ("Failed to load settings. Update checks are disabled.");
+				return;
+			}
+
 			updateChecker = new PeriodicUpdateChecker (periodMillis, delayMillis);
 			updateChecker.RegisterUpdateCheckCallback (delegate () {
 				CheckForPluginUpdate ();
